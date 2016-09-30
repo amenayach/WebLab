@@ -84,6 +84,58 @@ namespace WebLabTest
 
             });
 
+            //===================================================
+            Write("Add bundle to bundle manager", () =>
+            {
+                var bees = BundleManager.Create(null);
+
+                bees.Add(
+                   new Bundle()
+                   {
+                       Name = "jQuery",
+                       Files = new List<BundleFile>()
+                       {
+                           new BundleFile()
+                           {
+                               Id = 1,
+                               Name = "jQuery",
+                               Filename = @"E:\test\jquery.min.js",
+                               Type = FileType.Script
+                           },
+                           new BundleFile()
+                           {
+                               Id = 1,
+                               Name = "jQueryStyle",
+                               Filename = @"E:\test\jquery.min.css",
+                               Type = FileType.Style
+                           }
+                       }
+                   });
+
+                bees.Add(
+                  new Bundle()
+                  {
+                      Name = "jQueryVal",
+                      Files = new List<BundleFile>()
+                      {
+                           new BundleFile()
+                           {
+                               Id = 1,
+                               Name = "jQueryVal",
+                               Filename = @"E:\test\jval.js",
+                               Type = FileType.Script
+                           },
+                           new BundleFile()
+                           {
+                               Id = 1,
+                               Name = "jQueryValStyle",
+                               Filename = @"E:\test\jval.css",
+                               Type = FileType.Style
+                           }
+                      }
+                  });
+            });
+
         }
 
     }

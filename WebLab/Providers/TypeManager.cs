@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using WebLab.Models;
+using WebLab.Utilities;
 
 namespace WebLab.Providers
 {
@@ -48,6 +51,25 @@ namespace WebLab.Providers
             }
 
             DataList.Add(type);
+            SaveTypes();
+        }
+
+        /// <summary>
+        /// Update a existing type according to a predicate
+        /// </summary>
+        public void Update(T type, Func<T, bool> predicate)
+        {
+            if (DataList == null)
+            {
+                DataList = new List<T>();
+            }
+
+            var targetedTypeIndex = DataList.FirstIndex(predicate);
+
+            if (targetedTypeIndex > -1)
+            {
+                DataList[targetedTypeIndex] = type;
+            }
             SaveTypes();
         }
 

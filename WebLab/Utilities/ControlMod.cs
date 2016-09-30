@@ -82,6 +82,18 @@ namespace WebLab.Utilities
 
         #region "Lists"
 
+        public static int FirstIndex<T>(this List<T> list, Func<T, bool> fnc)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (fnc(list[i]))
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
         public static List<T> Except<T>(this List<T> L, Func<T, bool> fnc)
         {
             List<T> res = new List<T>();
@@ -618,55 +630,55 @@ namespace WebLab.Utilities
         //    }
         //}
 
-        public static void FillCombo(ComboBox cmb, object db, string valueMember = "id", string DisplayMember = "description")
+        public static void FillCombo(ComboBox cmb, object db, string valueMember = "id", string displayMember = "description")
         {
             var _with1 = cmb;
             _with1.DataSource = null;
             _with1.ValueMember = valueMember;
-            _with1.DisplayMember = DisplayMember;
+            _with1.DisplayMember = displayMember;
             _with1.DataSource = db;
             _with1.Invalidate();
             _with1.Refresh();
         }
 
-        public static void FillCombo(DataGridViewComboBoxColumn cmb, object db, string valueMember = "id", string DisplayMember = "description")
+        public static void FillCombo(DataGridViewComboBoxColumn cmb, object db, string valueMember = "id", string displayMember = "description")
         {
             var _with2 = cmb;
             _with2.DataSource = null;
             _with2.ValueMember = valueMember;
-            _with2.DisplayMember = DisplayMember;
+            _with2.DisplayMember = displayMember;
             _with2.DataSource = db;
         }
 
-        public static void FillCheckBoxList(CheckedListBox cmb, object db, string valueMember = "id", string DisplayMember = "description")
+        public static void FillCheckBoxList(this CheckedListBox cmb, object db, string valueMember = "id", string displayMember = "description")
         {
             var _with3 = cmb;
             _with3.Items.Clear();
             _with3.ValueMember = valueMember;
-            _with3.DisplayMember = DisplayMember;
+            _with3.DisplayMember = displayMember;
             _with3.Items.AddRange(((IList)db).Cast<object>().ToArray());
         }
 
-        public static void FillListBox(ListBox cmb, object db, string valueMember = "id", string DisplayMember = "description")
+        public static void FillListBox(this ListBox cmb, object db, string valueMember = "id", string displayMember = "description")
         {
             var _with4 = cmb;
             _with4.Items.Clear();
             _with4.ValueMember = valueMember;
-            _with4.DisplayMember = DisplayMember;
+            _with4.DisplayMember = displayMember;
             _with4.Items.AddRange(((IList)db).Cast<object>().ToArray());
         }
 
-        public static void ValidateTowDateTimePicker(DateTimePicker FromDate, DateTimePicker ToDate, bool ValidateSecond = false)
+        public static void ValidateTowDateTimePicker(DateTimePicker fromDate, DateTimePicker toDate, bool validateSecond = false)
         {
-            if (FromDate.Value > ToDate.Value)
+            if (fromDate.Value > toDate.Value)
             {
-                if (ValidateSecond)
+                if (validateSecond)
                 {
-                    ToDate.Value = FromDate.Value;
+                    toDate.Value = fromDate.Value;
                 }
                 else
                 {
-                    FromDate.Value = ToDate.Value;
+                    fromDate.Value = toDate.Value;
                 }
             }
         }
@@ -733,13 +745,13 @@ namespace WebLab.Utilities
             }
         }
 
-        public static void ClearForm(ref Control frm, ref Control Ctrl_ToFocus)
+        public static void ClearForm(ref Control frm, ref Control ctrlToFocus)
         {
             try
             {
                 ClearForm(ref frm);
-                Ctrl_ToFocus.Select();
-                Ctrl_ToFocus.Focus();
+                ctrlToFocus.Select();
+                ctrlToFocus.Focus();
             }
             catch (Exception ex)
             {
@@ -776,23 +788,22 @@ namespace WebLab.Utilities
         }
 
         //[Extension()]
-        public static void AddItem(ListView LstView, object _item, string Caption, int ImageIndex)
+        public static void AddItem(ListView lstView, object item, string caption, int imageIndex)
         {
-            var _with7 = LstView;
 
-            ListViewItem _itemView = new ListViewItem(Caption, ImageIndex);
-            _itemView.Tag = _item;
-            _with7.Items.Add(_itemView);
+            var with7 = lstView;
+            var itemView = new ListViewItem(caption, imageIndex) { Tag = item };
+            with7.Items.Add(itemView);
 
         }
 
-        public static void ShowPanel(this Control _someForm, Panel pnl, bool DockIt = false)
+        public static void ShowPanel(this Control someForm, Panel pnl, bool dockIt = false)
         {
             try
             {
-                if (_someForm != null && _someForm.IsDisposed == false)
+                if (someForm != null && someForm.IsDisposed == false)
                 {
-                    foreach (Control p in _someForm.Controls)
+                    foreach (Control p in someForm.Controls)
                     {
                         if (p is Panel && !p.Equals(pnl))
                         {
@@ -803,11 +814,11 @@ namespace WebLab.Utilities
 
                     pnl.Location = new Point(0, 0);
                     pnl.Visible = true;
-                    if (DockIt)
+                    if (dockIt)
                     {
                         pnl.Dock = DockStyle.Fill;
                     }
-                    _someForm.ClientSize = pnl.Size;
+                    someForm.ClientSize = pnl.Size;
                 }
             }
             catch (Exception ex)
@@ -816,21 +827,21 @@ namespace WebLab.Utilities
             }
         }
 
-        public static string InputBox(string title, string promptText, string DefaultValue = "")
+        public static string InputBox(string title, string promptText, string defaultValue = "")
         {
-            string value = DefaultValue;
-            Form form = new Form();
-            Label label = new Label();
-            TextBox textBox = new TextBox();
-            Button buttonOk = new Button();
-            Button buttonCancel = new Button();
+            var value = defaultValue;
+            var form = new Form();
+            var label = new Label();
+            var textBox = new TextBox();
+            var buttonOk = new Button();
+            var buttonCancel = new Button();
 
             form.Text = title;
             label.Text = promptText;
             textBox.Text = value;
 
-            buttonOk.Text = "&OK";
-            buttonCancel.Text = "Ca&ncel";
+            buttonOk.Text = @"&OK";
+            buttonCancel.Text = @"Ca&ncel";
             buttonOk.DialogResult = DialogResult.OK;
             buttonCancel.DialogResult = DialogResult.Cancel;
 
@@ -855,19 +866,18 @@ namespace WebLab.Utilities
             form.AcceptButton = buttonOk;
             form.CancelButton = buttonCancel;
             //Mac.Slide(form);
-            DialogResult dialogResult = form.ShowDialog();
-            return value = textBox.Text;
-            //return dialogResult;
+            form.ShowDialog();
+            return textBox.Text;
         }
 
-        public static string InputComboBox(string title, string promptText, string[] data, string DefaultValue = "")
+        public static string InputComboBox(string title, string promptText, string[] data, string defaultValue = "")
         {
-            string value = DefaultValue;
-            Form form = new Form();
-            Label label = new Label();
-            ComboBox combo = new ComboBox();
-            Button buttonOk = new Button();
-            Button buttonCancel = new Button();
+            var value = defaultValue;
+            var form = new Form();
+            var label = new Label();
+            var combo = new ComboBox();
+            var buttonOk = new Button();
+            var buttonCancel = new Button();
 
             form.Text = title;
             label.Text = promptText;
@@ -876,8 +886,8 @@ namespace WebLab.Utilities
             combo.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             combo.AutoCompleteSource = AutoCompleteSource.ListItems;
 
-            buttonOk.Text = "&OK";
-            buttonCancel.Text = "Ca&ncel";
+            buttonOk.Text = @"&OK";
+            buttonCancel.Text = @"Ca&ncel";
             buttonOk.DialogResult = DialogResult.OK;
             buttonCancel.DialogResult = DialogResult.Cancel;
 
@@ -905,10 +915,9 @@ namespace WebLab.Utilities
             DialogResult dialogResult = form.ShowDialog();
             if (dialogResult == DialogResult.OK)
             {
-                return value = combo.Text;
+                return combo.Text;
             }
-            else return "";
-            //return dialogResult;
+            return "";
         }
 
         #endregion
@@ -1110,18 +1119,18 @@ namespace WebLab.Utilities
                 if (RightOne)
                 {
                     pts = new PointF[] {
-					new PointF(iWidth / 4, 0),
-					new PointF(3 * iWidth / 4, iHeight / 2),
-					new PointF(iWidth / 4, iHeight)
-				};
+                    new PointF(iWidth / 4, 0),
+                    new PointF(3 * iWidth / 4, iHeight / 2),
+                    new PointF(iWidth / 4, iHeight)
+                };
                 }
                 else
                 {
                     pts = new PointF[] {
-					new PointF(3 * iWidth / 4, 0),
-					new PointF(iWidth / 4, iHeight / 2),
-					new PointF(3 * iWidth / 4, iHeight)
-				};
+                    new PointF(3 * iWidth / 4, 0),
+                    new PointF(iWidth / 4, iHeight / 2),
+                    new PointF(3 * iWidth / 4, iHeight)
+                };
                 }
 
                 using (Graphics gr = Graphics.FromImage(res))
