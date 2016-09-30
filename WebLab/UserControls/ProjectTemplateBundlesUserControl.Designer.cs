@@ -37,10 +37,10 @@
             this.lblInstanceName = new System.Windows.Forms.Label();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.lstAvailableBundles = new System.Windows.Forms.CheckedListBox();
             this.lblAvailableBundles = new System.Windows.Forms.Label();
             this.lstSelectedBundles = new System.Windows.Forms.ListBox();
             this.tbSearchAvailableBundles = new System.Windows.Forms.TextBox();
-            this.lstAvailableBundles = new System.Windows.Forms.CheckedListBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -164,6 +164,19 @@
             this.splitContainer1.SplitterDistance = 99;
             this.splitContainer1.TabIndex = 8;
             // 
+            // lstAvailableBundles
+            // 
+            this.lstAvailableBundles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lstAvailableBundles.CheckOnClick = true;
+            this.lstAvailableBundles.Font = new System.Drawing.Font("Comic Sans MS", 12F);
+            this.lstAvailableBundles.FormattingEnabled = true;
+            this.lstAvailableBundles.Location = new System.Drawing.Point(5, 73);
+            this.lstAvailableBundles.Name = "lstAvailableBundles";
+            this.lstAvailableBundles.Size = new System.Drawing.Size(427, 429);
+            this.lstAvailableBundles.TabIndex = 7;
+            this.lstAvailableBundles.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lstAvailableBundles_ItemCheck);
+            // 
             // lblAvailableBundles
             // 
             this.lblAvailableBundles.AutoSize = true;
@@ -196,19 +209,6 @@
             this.tbSearchAvailableBundles.Size = new System.Drawing.Size(386, 30);
             this.tbSearchAvailableBundles.TabIndex = 2;
             // 
-            // lstAvailableBundles
-            // 
-            this.lstAvailableBundles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.lstAvailableBundles.CheckOnClick = true;
-            this.lstAvailableBundles.Font = new System.Drawing.Font("Comic Sans MS", 12F);
-            this.lstAvailableBundles.FormattingEnabled = true;
-            this.lstAvailableBundles.Location = new System.Drawing.Point(5, 73);
-            this.lstAvailableBundles.Name = "lstAvailableBundles";
-            this.lstAvailableBundles.Size = new System.Drawing.Size(427, 429);
-            this.lstAvailableBundles.TabIndex = 7;
-            this.lstAvailableBundles.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lstAvailableBundles_ItemCheck);
-            // 
             // ProjectTemplateBundlesUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -216,6 +216,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "ProjectTemplateBundlesUserControl";
             this.Size = new System.Drawing.Size(892, 617);
+            this.Load += new System.EventHandler(this.ProjectTemplateBundlesUserControl_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);

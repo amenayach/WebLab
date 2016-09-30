@@ -19,6 +19,7 @@ namespace WebLab.UserControls
         private bool _trackItemCheck = true;
         private ProjectTemplate _selectedProjectTemplate;
         private List<Bundle> _bundles;
+        private Toastr _toastr;
 
         public ProjectTemplateBundlesUserControl()
         {
@@ -41,6 +42,13 @@ namespace WebLab.UserControls
 
                     ValidateTemplateBundles();
 
+                }
+
+                if (ParentForm != null)
+                {
+                    _toastr = new Toastr(this.ParentForm,
+                        ParentForm.PointToClient(btnSave.PointToScreen(new Point(btnSave.Location.X + btnSave.Width * 2, -100))),
+                        ParentForm.PointToClient(btnSave.PointToScreen(new Point(btnSave.Location.X + btnSave.Width * 2, btnSave.Location.Y))), 2500);
                 }
             }
             catch (Exception ex)
@@ -75,6 +83,7 @@ namespace WebLab.UserControls
             if (_selectedProjectTemplate != null)
             {
                 ProjectTemplateManager.Create(null).Update(_selectedProjectTemplate, pTemplate => pTemplate.Name == _selectedProjectTemplate.Name);
+                _toastr.Show("Saved succeeded :)");
             }
         }
 
@@ -84,7 +93,26 @@ namespace WebLab.UserControls
             {
                 if (_trackItemCheck)
                 {
-                    //todo add checked bundle to _selectedProjectTemplate.Bundles
+                    if (_selectedProjectTemplate != null)
+                    {
+
+                        var similarItem = _selectedProjectTemplate.Bundles.FirstOrDefault(bundle => bundle.Name == (lstAvailableBundles.Items[e.Index] as Bundle)?.Name);
+                        if (e.NewValue == CheckState.Checked)
+                        {
+                            if (similarItem == null)
+                            {
+                                _selectedProjectTemplate.Bundles.Add(lstAvailableBundles.Items[e.Index] as Bundle);
+                            }
+                        }
+                        else
+                        {
+                            if (similarItem != null)
+                            {
+                                _selectedProjectTemplate.Bundles.Remove(similarItem);
+                            }
+                        }
+
+                    }
                     ValidateTemplateBundles();
 
                 }
@@ -93,6 +121,11 @@ namespace WebLab.UserControls
             {
                 ex.PromptMsg();
             }
+        }
+
+        private void ProjectTemplateBundlesUserControl_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
